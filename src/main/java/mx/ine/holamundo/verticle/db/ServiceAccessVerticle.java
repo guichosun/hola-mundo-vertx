@@ -43,7 +43,7 @@ public class ServiceAccessVerticle extends AbstractVerticle {
 		ConfigRetriever retriever = ConfigRetriever.create(vertx, new ConfigRetrieverOptions().addStore(file));
 		
 		retriever.getConfig(conf -> {
-			JsonObject datasourceConfig = conf.result().getJsonObject("datasource");
+			JsonObject datasourceConfig = conf.result().getJsonObject("port");
 			System.out.println("config del application.json. "+datasourceConfig);
 		});
 		JsonObject config = retriever.getCachedConfig();
