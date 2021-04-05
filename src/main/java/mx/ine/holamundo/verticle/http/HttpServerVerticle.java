@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.TimeZone;
 
 import org.slf4j.Logger;
@@ -14,6 +13,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
@@ -36,8 +36,20 @@ public class HttpServerVerticle extends AbstractVerticle {
 		super.start();
 		LOGGER.debug("Se deploya HttpServerVerticle");
 
+		HttpServerOptions options = new HttpServerOptions();
+		  options
+		      .setSsl(true)
+//		      Opciones para el certificado al server
+//		      .setClientAuth(ClientAuth.REQUIRED)
+//		      .setPemKeyCertOptions(serverCert.keyCertOptions())
+//		      .setTrustOptions(VertxTrustOptions.trustClientOnFirstAccess(knownClientsFile, false))
+		      .setIdleTimeout(1500)
+		      .setReuseAddress(true)
+		      .setPort(8080)
+		      .setReusePort(true);
+
 		// Se crea el server
-		server = vertx.createHttpServer();
+		server = vertx.createHttpServer(options);
 
 		// Create a router object.
 		mainRouter = Router.router(vertx);
